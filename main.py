@@ -8,7 +8,7 @@ pygame.font.init()
 my_font = pygame.font.SysFont('Arial', 28)
 pygame.display.set_caption("Balloon Flight!")
 
-FPS = 500
+FPS = 60
 
 start_message = "Welcome to Isabelle's Awesome Adventure."
 instruct_1 = "Use controls WASD for movement"
@@ -20,13 +20,15 @@ end_message = "Congrats! You've completed the journey."
 size = (800, 600)
 screen = pygame.display.set_mode(size)
 PLAYER_START_X = 20
-PLAYER_START_Y = 430
+PLAYER_START_Y = 440
 
-bg = pygame.image.load("background.png")
+#images
+bg_1 = pygame.image.load("background.png")
 bg_2 = pygame.image.load("background_2.png")
 house = pygame.image.load("house.png")
 tree = pygame.image.load("tree.png")
 
+#rendering
 display_end_message = my_font.render(end_message, True, (255, 0, 0))
 display_start_message = my_font.render(start_message, True, (255, 0, 0))
 
@@ -42,8 +44,6 @@ house_x = INITIAL_HOUSE_X
 tree_x = INITIAL_TREE_X
 
 # render the text for later
-
-# The loop will carry on until the user exits the game (e.g. clicks the close button).
 
 run = True
 game_over = False
@@ -64,7 +64,7 @@ while run:
                 start_screen = False
 
         # -- start screen here
-        screen.blit(bg, (0, 0))
+        screen.blit(bg_1, (0, 0))
         screen.blit(display_start_message, (200, 200))
         screen.blit(display_instruct_1, (200, 250))
         screen.blit(display_instruct_2, (200, 300))
@@ -84,55 +84,33 @@ while run:
                 run = False
             keys = pygame.key.get_pressed()
             if keys[pygame.K_d]:
-                player.move_balloon("right")
+                user_player.move_player("right")
             if keys[pygame.K_a]:
-                player.move_balloon("left")
+                user_player.move_player("left")
 
-        if player.rect.x <= 100:
+        if user_player.rect.x <= 150:
             house_x = house_x - 2
             tree_x = tree_x - 2
+            user_player.move_player(direction)
 
-            screen.blit(bg, (0, 0))
+            screen.blit(bg_1, (0, 0))
             screen.blit(house, (house_x, 360))
             screen.blit(tree, (tree_x, 360))
             screen.blit(user_player.image, user_player.rect)
             pygame.display.update()
 
-        # if player_pos in pygame.Rect(100, 100, 10, 10):
-        #     player_pos = 0, 0
-        #     background = newbackground
 
-        if balloon.rect.x >= 300:
-            bg = bg_2
-            size = (600, 600)
+        if user_player.rect.x == 300:
+            bg_1 = bg_2
+            size = (800, 600)
             screen = pygame.display.set_mode(size)
+            user_player.move_player(direction)
 
-            screen.blit(bg, (0, 0))
-            screen.blit(player.image, balloon.rect)
-
+            screen.blit(bg_1, (0, 0))
+            screen.blit(user_player.image, user_player.rect)
             pygame.display.update()
 
-        balloon.move_balloon(direction)
-
     # clock.tick(FPS)
-
-    # -- end screen
-    # if game_over:
-    #     for event in pygame.event.get():  # User did something
-    #         if event.type == pygame.QUIT:  # If user clicked close
-    #             run = False
-    #         if event.type == pygame.MOUSEBUTTONDOWN:
-    #             points = 0
-    #             balloon.x = BALLOON_START_X
-    #             balloon.y = BALLOON_START_Y
-    #             house_x = INITIAL_HOUSE_X
-    #             tree_x = INITIAL_TREE_X
-    #             game_over = False
-    #
-    #     # -- end screen here
-    #     screen.blit(bg, (0, 0))
-    #     screen.blit(display_end_message, (300, 300))
-    #     pygame.display.update()
 
 # Once we have exited the main program loop we can stop the game engine:
 pygame.quit()
