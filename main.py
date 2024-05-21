@@ -1,6 +1,7 @@
 import pygame
 import random
 from user_player import Player
+from player_2 import Player_2
 
 # set up pygame modules
 pygame.init()
@@ -9,11 +10,14 @@ my_font = pygame.font.SysFont('Arial', 28)
 
 FPS = 60
 
+# messages
+
 start_message = "Welcome to Isabelle's Adventure."
 instruct_1 = "Use controls WASD for movement"
 instruct_2 = "Make bold decisions and interact with characters. Click to start"
 end_message = "Congrats! You've completed the journey."
-
+dialogue_1 = "In order to complete this adventure you must choose the correct options, would you like to continue?"
+dialogue_2 = "Brave choice. You may now move on to the challenge. Good luck!"
 
 # set up variables for the display
 size = (800, 600)
@@ -31,6 +35,11 @@ player_2 = pygame.image.load("player_2.png")
 #rendering
 display_end_message = my_font.render(end_message, True, (255, 0, 0))
 display_start_message = my_font.render(start_message, True, (255, 0, 0))
+
+# display_dialogue_1 = my_font.render(dialogue_1, True, (0, 0, 0))
+# display_dialogue_2 =
+# display_game_over =
+# display_game_won =
 
 my_font = pygame.font.SysFont('Arial', 15)
 display_instruct_1 = my_font.render(instruct_1, True, (255, 255, 255))
@@ -67,7 +76,7 @@ while run:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 start_screen = False
 
-        screen.blit(bg_1, (0, 0))
+        screen.fill((0, 0, 0))
         screen.blit(display_start_message, (200, 200))
         screen.blit(display_instruct_1, (200, 250))
         screen.blit(display_instruct_2, (200, 300))
@@ -89,55 +98,32 @@ while run:
                 house_x = house_x + 10
                 tree_x = tree_x + 10
 
-        # if house_x < -250:
-        #     house_x = INITIAL_HOUSE_X
-        #
-        # if tree_x < -250:
-        #     tree_x = INITIAL_TREE_X
-
-        screen.blit(bg_1, (0, 0))
-        screen.blit(house, (house_x, 360))
-        screen.blit(tree, (tree_x, 360))
-        screen.blit(user_player.image, user_player.rect)
-        pygame.display.update()
-
-        # while user_player.rect.x < 300:
-        #     screen.blit(bg_1, (0, 0))
-        #     screen.blit(house, (house_x, 360))
-        #     screen.blit(tree, (tree_x, 360))
-        #     screen.blit(user_player.image, user_player.rect)
-        #     pygame.display.update()
-        #
-        #     if user_player.rect.x >= 300:
-        #         bg_1 = bg_2
-        #         size = (800, 600)
-        #         screen = pygame.display.set_mode(size)
-        #         user_player.move_player(direction)
-        #
-        #         screen.blit(bg_2, (0, 0))
-        #         screen.blit(user_player.image, user_player.rect)
-        #         pygame.display.update()
-
-        if user_player.rect.x <= 150:
-
-            user_player.move_player(direction)
-
             screen.blit(bg_1, (0, 0))
             screen.blit(house, (house_x, 360))
             screen.blit(tree, (tree_x, 360))
             screen.blit(user_player.image, user_player.rect)
             pygame.display.update()
 
-        if user_player.rect.x >= 300:
-            print('glitch')
-            bg_1 = bg_2
-            #size = (800, 600)
-            #screen = pygame.display.set_mode(size)
-            user_player.move_player(direction)
+        if user_player.rect.x <= 150:
 
-            screen.blit(bg_2, (0, 0))
+            user_player.move_player(direction)
+            pygame.display.update()
+        #
+        # if user_player.rect.x >= 300:
+        #     bg_1 = bg_2
+        #
+        #     screen.fill((128, 128, 128))
+        #     user_player.move_player(direction)
+        #     screen.blit(bg_2, (0, 0))
+        #     screen.blit(user_player.image, user_player.rect)
+        #     screen.blit(player_2, (player_2_x, 360))
+        #     pygame.display.update()
+
+
+        if user_player.rect.x >= 500:
+
             screen.blit(user_player.image, user_player.rect)
-            # screen.blit(player_2, (player_2_x, 360))
+            screen.blit(player_2, (player_2_x, 360))
             pygame.display.update()
 
     # clock.tick(FPS)
