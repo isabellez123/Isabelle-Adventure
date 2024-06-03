@@ -14,8 +14,9 @@ start_message = "Welcome to Isabelle's Adventure."
 instruct_1 = "Use controls WASD for movement"
 instruct_2 = "Make bold decisions and interact with characters. Click to start"
 end_message = "Congrats! You've completed the journey."
-dialogue_1 = "In order to complete this adventure you must choose the correct options, would you like to continue?"
 dialogue_2 = "Brave choice. You may now move on to the challenge. Good luck!"
+yes_box = "YES!"
+no_box = "NO!"
 
 # set up variables for the display
 size = (800, 600)
@@ -29,7 +30,7 @@ bg_2 = pygame.image.load("background_2.png")
 house = pygame.image.load("house.png")
 tree = pygame.image.load("tree.png")
 player_2 = pygame.image.load("player_2.png")
-dialogue_box_1 = pygame.image.load("msg box (1).png")
+dialogue_box_1 = pygame.image.load("msg_box1.png")
 
 # rendering
 display_end_message = my_font.render(end_message, True, (255, 0, 0))
@@ -41,7 +42,10 @@ my_font = pygame.font.SysFont('Arial', 15)
 display_instruct_1 = my_font.render(instruct_1, True, (255, 255, 255))
 display_instruct_2 = my_font.render(instruct_2, True, (255, 255, 255))
 
-display_dialogue_1 = my_font.render(dialogue_1, True, (0, 0, 0))
+my_font = pygame.font.SysFont('Arial', 50)
+
+display_yes_box = my_font.render(yes_box, True, (255, 255, 255))
+display_no_box = my_font.render(no_box, True, (255, 255, 255))
 # display_dialogue_2 =
 # display_game_over =
 # display_game_won =
@@ -61,6 +65,7 @@ player_2_y = PLAYER_2_START_Y
 # render the text for later
 
 move = True
+new_background = False
 run = True
 game_over = False
 start_screen = True
@@ -112,33 +117,31 @@ while run:
             user_player.move_player(direction)
             pygame.display.update()
 
-        # if user_player.rect.x >= 300:
-        #     bg_1 = bg_2
-        #
-        #     screen.fill((128, 128, 128))
-        #     user_player.move_player(direction)
-        #     screen.blit(bg_2, (0, 0))
-        #     screen.blit(user_player.image, user_player.rect)
-        #     screen.blit(player_2, (player_2_x, 360))
-        #     pygame.display.update()
-
         if user_player.rect.x >= 360:
             user_player.move_player(direction)
             move = False
 
             color = (255, 192, 203)
             color_2 = (255, 0, 0)
-            # screen.blit(dialogue_box_1, (100, 250))
+            screen.blit(dialogue_box_1, (200, 100))
+
             pygame.draw.rect(screen, color, textbox_1)
             pygame.draw.rect(screen, color_2, textbox_2)
+
+            screen.blit(display_no_box, (540, 320))
+            screen.blit(display_yes_box, (50, 100))
+
             mouse_pressed = pygame.mouse.get_pressed(3)
-            screen.blit(display_dialogue_1, (100, 250))
+
             if mouse_pressed[0]:
                 mouse_pos = pygame.mouse.get_pos()
                 rectangle = pygame.Rect(mouse_pos[0], mouse_pos[1], 1, 1)
-                if textbox_1.contains(rectangle):
-                    print("CLICKED PINK BOX")
-                    screen.blit(bg_2, (0, 0))
+                if new_background:
+                    textbox_1.contains(rectangle)
+                # if new_background == True:
+                #     screen.blit(bg_2, (0, 0))
+                #     print("CLICKED PINK BOX")
+
                 # if textbox_2.contains(rectangle_2):
                 #   print("CLICKED RED BOX")
                 #   end code
