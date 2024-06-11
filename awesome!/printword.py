@@ -27,13 +27,13 @@ class PrintWord:
 
     def print_letter_by_letter(self, x, y, font_size, next_line):
         x_value = x
-        displacement = font_size * 0.5
+        displacement = font_size * 0.6
         for i in range(len(self.letter_status)):
             if self.letter_status[i]:
                 if x > next_line:
                     x = x_value
                     y += font_size
-                my_font = pygame.font.SysFont('Arial', font_size)
+                my_font = pygame.font.SysFont('Courier', font_size)
                 letter = my_font.render(self.string[i], True, (255, 255, 255))
                 self.screen.blit(letter, (x, y))
                 x += displacement

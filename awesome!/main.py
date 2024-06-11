@@ -53,19 +53,29 @@ bg_3 = pygame.image.load("background_3.png")
 bg_3 = pygame.transform.scale(bg_3, (800, 600))
 bg_4 = pygame.image.load("background_4.png")
 bg_4 = pygame.transform.scale(bg_4, (800, 600))
+defeat_screen = pygame.image.load("defeat_screen.jpeg")
+defeat_screen = pygame.transform.scale(defeat_screen, (800, 600))
 house = pygame.image.load("house.png")
 tree = pygame.image.load("tree.png")
 player_2 = pygame.image.load("player_2.png")
 dialogue_box = pygame.image.load("msg_box2.png")
+mom = pygame.image.load("mom.png")
+mom = pygame.transform.scale(mom, (150, 200))
+kids = pygame.image.load("kids.png")
+kids = pygame.transform.scale(kids, (270, 180))
+homeless_man = pygame.image.load("homeless_guy.png")
+homeless_man = pygame.transform.scale(homeless_man, (150, 180))
+
 
 # rendering
-my_font = pygame.font.SysFont('Arial', 20)
+my_font = pygame.font.SysFont('Cambria', 20)
 
 display_end_message = my_font.render(end_message, True, (255, 0, 0))
 display_start_message = my_font.render(start_message, True, (255, 0, 0))
 display_game_over2 = my_font.render(game_over2, True, (255, 255, 255))
 display_win_message2 = my_font.render(win_message2, True, (255, 255, 255))
 display_win_message3 = my_font.render(win_message3, True, (255, 255, 255))
+
 textbox_1 = pygame.Rect(500, 300, 100, 60)
 textbox_2 = pygame.Rect(200, 300, 100, 60)
 n = 1
@@ -104,7 +114,7 @@ PLAYER_2_START_Y = 400
 player_2_x = PLAYER_2_START_X
 player_2_y = PLAYER_2_START_Y
 
-# render the text for later
+# Initializing
 
 end_screen = False
 win_screen = False
@@ -117,7 +127,6 @@ bg1 = False
 bg2 = False
 bg3 = False
 bg4 = False
-
 
 # -------- Main Program Loop -----------
 frame = 0
@@ -158,10 +167,11 @@ while run:
                     user_player.move_player("left")
                     tree_x = tree_x + 10
             mouse_pressed = pygame.mouse.get_pressed(3)
+            # list of mouse clicks from left click, middle click, and right click
 
             if mouse_pressed[0] and not move and print_bg1_option2.printed:
                 mouse_pos = pygame.mouse.get_pos()
-                rectangle = pygame.Rect(mouse_pos[0], mouse_pos[1], 1, 1)
+                rectangle = pygame.Rect(mouse_pos[0], mouse_pos[1], 1, 1) # positon of mouse
                 if textbox_2.contains(rectangle):
                     bg2 = True
                     bg1 = False
@@ -178,6 +188,7 @@ while run:
         screen.blit(bg_1, (0, 0))
         screen.blit(tree, (tree_x, 360))
         screen.blit(user_player.image, user_player.rect)
+
         if not move:
             color_1 = (255, 192, 203)
             color_2 = (255, 0, 0)
@@ -186,6 +197,7 @@ while run:
             pygame.draw.rect(screen, color_2, textbox_2)
             print_bg1_dialogue_1.update()
             print_bg1_dialogue_1.print_letter_by_letter(220, 120, 15, 658)
+            # checks and prints
             if print_bg1_dialogue_1.printed:
                 print_bg1_option1.update()
                 print_bg1_option1.print_letter_by_letter(200, 300, 50, 300)
@@ -203,6 +215,7 @@ while run:
     if not game_over and bg2:
         draw_interval = 1000 / FPS
         next_draw_time = time.time() * 1000 + draw_interval
+        # how much time between each frame
         for event in pygame.event.get():  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
                 run = False
@@ -235,6 +248,7 @@ while run:
             color_1 = (255, 192, 203)
             color_2 = (255, 0, 0)
             screen.blit(dialogue_box, (200, 100))
+            screen.blit(mom, (50, 310))
             pygame.draw.rect(screen, color_1, textbox_1)
             pygame.draw.rect(screen, color_2, textbox_2)
             print_bg2_dialogue_1.update()
@@ -248,9 +262,12 @@ while run:
         pygame.display.update()
 
         remaining_time = next_draw_time - time.time() * 1000
+        # FPS
+        # time left until next frame. Sleep until it's done
 
         if remaining_time > 0:
             time.sleep(remaining_time / 1000)
+            # prevents errors and ensure it runs 60 frames per second
 
     # - bg3
     if not game_over and bg3:
@@ -288,6 +305,7 @@ while run:
             color_1 = (255, 192, 203)
             color_2 = (255, 0, 0)
             screen.blit(dialogue_box, (200, 100))
+            screen.blit(kids, (480, 460))
             pygame.draw.rect(screen, color_1, textbox_1)
             pygame.draw.rect(screen, color_2, textbox_2)
             print_bg3_dialogue_1.update()
@@ -335,10 +353,12 @@ while run:
 
         screen.blit(bg_4, (0, 0))
         screen.blit(user_player.image, user_player.rect)
+
         if not move:
             color_1 = (255, 192, 203)
             color_2 = (255, 0, 0)
             screen.blit(dialogue_box, (200, 100))
+            screen.blit(homeless_man, (570, 400))
             pygame.draw.rect(screen, color_1, textbox_1)
             pygame.draw.rect(screen, color_2, textbox_2)
             print_bg4_dialogue_1.update()
@@ -361,6 +381,7 @@ while run:
             if event.type == pygame.QUIT:  # If user clicked close
                 run = False
         screen.fill((255, 0, 0))
+        # screen.blit(defeat_screen, (0, 0))
         screen.blit(display_game_over, (270, 250))
         screen.blit(display_game_over2, (150, 350))
         pygame.display.update()
